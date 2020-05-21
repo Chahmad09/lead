@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Post;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\PostCollection;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -24,8 +25,25 @@ class PostController extends Controller
      return response()->json(
         ['posts' => new PostCollection(Post::all())], 200);
     }
+    public function search(Request $request)
+    {
+     $from = $request->start_date;
+     $to = $request->end_date;
+     $posts=Post::where('created_at', '>=', $from)->where('created_at', '<=', $to)->get();
+     if($posts != "[]"){
+             return response()->json(['posts' => $posts], 200);
+        }else{
+                 return response()->json(['posts' => "No Posts Are Available in this Dates Period !" ], 403);
+         }
 
+    }
 
+    public function cat()
+    {
+     $cat = DB::table('posts')->pluck('category');
+     return response()->json(
+        ['categoies' => $cat], 200);
+    }
     /**
      * Store a newly created resource in storage.
      *

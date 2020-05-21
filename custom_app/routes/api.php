@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login','api\UserController@login');
 Route::get('/posts','api\PostController@index');
+Route::get('/post/category', 'api\PostController@cat');
+Route::post('/post/search', 'api\PostController@search');
+
 Route::post('/post/store', 'api\PostController@store');
 Route::post('/post/show', 'api\PostController@show');
 Route::post('/post/update','api\PostController@update');
