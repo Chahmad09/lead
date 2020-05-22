@@ -33,16 +33,21 @@ class PostController extends Controller
      if($posts != "[]"){
              return response()->json(['posts' => $posts], 200);
         }else{
-                 return response()->json(['posts' => "No Posts Are Available in this Dates Period !" ], 403);
+            return response()->json(['posts' => "No Posts Are Available in this Dates Period !" ], 403);
          }
 
     }
 
     public function cat()
     {
-     $cat = DB::table('posts')->pluck('category');
+     $cat = DB::table('posts')->distinct()->pluck('category');
+    if($cat != "[]"){ 
      return response()->json(
         ['categoies' => $cat], 200);
+    }else{
+        return response()->json(['categories' => "No Categories Are Available in this Dates Period !" ], 403);
+
+    }
     }
     /**
      * Store a newly created resource in storage.
